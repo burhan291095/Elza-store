@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إلزا | ELZA - متجر الملابس النسائية الفاخرة</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            gold: '#C5A059',
+                            goldHover: '#B38F48',
+                            dark: '#1C1917',
+                            brown: '#8C624D',
+                            cream: '#FAF7F2',
+                            accent: '#6E473B'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #FAF7F2;
+            color: #1C1917;
+        }
+        .pulse-btn {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-brand-cream min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-brand-dark text-white text-xs md:text-sm py-2 px-4 text-center flex justify-between items-center border-b border-brand-gold/20">
+        <div class="hidden md:flex items-center gap-4 text-brand-gold text-xs">
+            <a href="tel:0562134325" class="hover:underline flex items-center gap-1"><i class="fa-solid fa-phone"></i> 0562134325</a>
+            <a href="https://wa.me/213551702844" target="_blank" class="hover:underline flex items-center gap-1"><i class="fa-brands fa-whatsapp text-emerald-400"></i> 213551702844+</a>
+        </div>
+        <p class="w-full md:w-auto font-medium text-center">
+            ✨ مرحباً بك في <span class="text-brand-gold font-bold">إلزا ELZA</span> - شحن مجاني للطلبات الكبيرة + خصم 20% بكود <span class="bg-brand-gold text-brand-dark px-1.5 py-0.5 rounded font-bold">ELZA2026</span>
+        </p>
+        <div class="hidden md:block text-xs text-stone-400">
+            عنوان الأناقة والفخامة
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-stone-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Mobile Menu Icon -->
+                <div class="flex items-center lg:hidden">
+                    <button onclick="toggleMobileMenu()" class="p-2 text-stone-700 hover:text-brand-brown focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- Logo -->
+                <div class="flex-1 lg:flex-none text-center lg:text-right">
+                    <a href="#" class="inline-flex items-center gap-2">
+                        <div class="w-10 h-10 rounded-full bg-brand-brown text-white font-serif font-bold text-xl flex items-center justify-center shadow">E</div>
+                        <div class="text-right">
+                            <span class="block text-2xl font-black tracking-widest text-brand-dark leading-none">ELZA</span>
+                            <span class="text-[9px] tracking-widest text-brand-gold font-semibold uppercase block mt-1">HAUTE COUTURE • إ لـ ز ا</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center space-x-8 space-x-reverse text-sm font-semibold text-stone-700">
+                    <a href="#hero" class="hover:text-brand-gold transition-colors py-2">الرئيسية</a>
+                    <a href="#categories" class="hover:text-brand-gold transition-colors py-2">التشيكلات</a>
+                    <a href="#featured" class="hover:text-brand-gold transition-colors py-2">الأكثر مبيعاً</a>
+                    <a href="#contact" class="hover:text-brand-gold transition-colors py-2">اتصلي بنا</a>
+                </nav>
+
+                <!-- Action Icons -->
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleCartModal()" class="relative p-2 text-stone-700 hover:text-brand-brown transition-colors">
+                        <i class="fa-solid fa-bag-shopping text-2xl"></i>
+                        <span id="cartCount" class="absolute top-0 right-0 bg-brand-brown text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="px-4 pb-3 max-w-2xl mx-auto">
+            <div class="relative">
+                <input type="text" id="searchInput" oninput="filterProducts()" placeholder="بحث عن فستان، عباية، حقائب..." class="w-full pr-10 pl-4 py-2 bg-stone-100 border border-stone-200 rounded-full text-xs focus:outline-none focus:border-brand-gold transition-colors">
+                <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-2.5 text-stone-400 text-sm"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Navigation -->
+    <div id="mobileMenu" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity">
+        <div class="w-4/5 max-w-sm bg-white h-full p-6 flex flex-col justify-between overflow-y-auto">
+            <div>
+                <div class="flex justify-between items-center mb-8 border-b pb-4">
+                    <span class="text-xl font-bold text-brand-dark">قائمة متجر إلزا</span>
+                    <button onclick="toggleMobileMenu()" class="text-stone-500 text-xl"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <nav class="flex flex-col gap-4 text-base font-semibold text-stone-800">
+                    <a href="#hero" onclick="toggleMobileMenu()" class="hover:text-brand-gold border-b pb-2">الرئيسية</a>
+                    <a href="#categories" onclick="toggleMobileMenu()" class="hover:text-brand-gold border-b pb-2">التشيكلات الرئيسية</a>
+                    <a href="#featured" onclick="toggleMobileMenu()" class="hover:text-brand-gold border-b pb-2">تنسيقات الشهر</a>
+                    <a href="#contact" onclick="toggleMobileMenu()" class="hover:text-brand-gold border-b pb-2">معلومات التواصل</a>
+                </nav>
+            </div>
+            <div class="space-y-3 pt-6 border-t">
+                <a href="https://wa.me/213551702844" class="w-full bg-emerald-600 text-white py-3 rounded-lg flex items-center justify-center gap-2 font-bold text-sm">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> تواصل عبر الواتساب
+                </a>
+                <a href="tel:0562134325" class="w-full bg-stone-800 text-white py-3 rounded-lg flex items-center justify-center gap-2 font-bold text-sm">
+                    <i class="fa-solid fa-phone"></i> اتصال مباشر
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Banner Section -->
+    <section id="hero" class="relative bg-stone-900 text-white overflow-hidden py-16 px-4 sm:px-8 min-h-[480px] flex items-center">
+        <div class="absolute inset-0 z-0 opacity-40 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop');"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-900/80 to-transparent z-0"></div>
+        
+        <div class="relative z-10 max-w-3xl mx-auto text-center space-y-5">
+            <span class="inline-block bg-white/10 backdrop-blur-md border border-brand-gold/40 text-brand-gold px-4 py-1.5 rounded-full text-xs font-bold tracking-wide">
+                👑 تشكيلة خريف وشتاء 2026 الحصرية
+            </span>
+            <h1 class="text-4xl sm:text-6xl font-black text-white leading-tight">
+                إلزا ELZA<br>
+                <span class="text-brand-gold font-serif">عنوان الأناقة والفخامة</span>
+            </h1>
+            <p class="text-sm sm:text-base text-stone-300 max-w-xl mx-auto font-light">
+                اكتشفي الأنوثة الراعية والتصاميم الراقية مع علامة إلزا. فساتين، لانجري، وموديلات صممت لتناسب ذوقك الرفيع بكل التفاصيل.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+                <a href="#categories" class="bg-brand-brown hover:bg-brand-accent text-white px-8 py-3.5 rounded-full font-bold transition-all shadow-lg flex items-center justify-center gap-2">
+                    تسوقي الآن <i class="fa-solid fa-arrow-left text-xs"></i>
+                </a>
+                <a href="#featured" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 py-3.5 rounded-full font-bold transition-all flex items-center justify-center">
+                    استكشفي العروض
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Grid Section -->
+    <section id="categories" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="text-center mb-10">
+            <span class="text-brand-brown font-bold text-xs tracking-wider uppercase">التشكيلات الرئيسية</span>
+            <h2 class="text-3xl font-black text-stone-900 mt-1">تصفحي تصاميم إلزا بحسب الفئة</h2>
+            <div class="w-16 h-1 bg-brand-brown mx-auto mt-3 rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+            <!-- Category Card 1 -->
+            <div onclick="filterByCategory('فساتين')" class="group relative h-80 rounded-2xl overflow-hidden cursor-pointer shadow-md">
+                <img src="https://i.postimg.cc/Thvx0vxP/FB-IMG-1791554168341.jpg" alt="فساتين">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute bottom-4 right-4 left-4 text-white">
+                    <h3 class="text-xl font-bold">لانجري (Lingerie)</h3>
+                    <p class="text-xs text-stone-300 mt-1">تصاميم راقية لجميع المناسبات</p>
+                </div>
+            </div>
+
+            <!-- Category Card 2 -->
+            <div onclick="filterByCategory('فساتين')" class="group relative h-80 rounded-2xl overflow-hidden cursor-pointer shadow-md">
+                <img src="https://i.postimg.cc/x8yxwwmp/FB-IMG-1791553812157.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="عبايات">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute bottom-4 right-4 left-4 text-white">
+                    <h3 class="text-xl font-bold">فساتين</h3>
+                    <p class="text-xs text-stone-300 mt-1">فخامة وتطريز فاخر</p>
+                </div>
+            </div>
+
+    
+            
+
+           
+        
+    </section>
+
+    <!-- Products Showcase -->
+    <section id="featured" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="flex justify-between items-end mb-8">
+            <div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-stone-900">أحدث التصاميم والمنتجات</h2>
+                <p class="text-xs sm:text-sm text-stone-500 mt-1">اختاري القطع المفضلة لديك واطلبيها مباشرة عبر الواتساب</p>
+            </div>
+            <button onclick="resetFilter()" class="text-xs font-bold text-brand-brown hover:underline">عرض الكل</button>
+        </div>
+
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Products injected by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-stone-900 text-stone-300 pt-12 pb-24 border-t border-stone-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-brand-gold text-stone-900 font-bold flex items-center justify-center">E</div>
+                    <span class="text-xl font-black text-white">ELZA</span>
+                </div>
+                <p class="text-xs leading-relaxed text-stone-400">
+                    علامة تجارية متخصصة في أرقى تصاميم الأزياء والملابس النسائية الفاخرة. نسعى دائماً لتوفير الأناقة والتميز لكل امرأة.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4 border-r-2 border-brand-gold pr-2">تواصل مباشر</h4>
+                <ul class="space-y-3 text-xs">
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-phone text-brand-gold"></i>
+                        <span>الهاتف: </span>
+                        <a href="tel:0562134325" class="text-white hover:underline dir-ltr">0562134325</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fa-brands fa-whatsapp text-emerald-400 text-base"></i>
+                        <span>الواتساب: </span>
+                        <a href="https://wa.me/213551702844" target="_blank" class="text-white hover:underline dir-ltr">+213 551 70 28 44</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4 border-r-2 border-brand-gold pr-2">خدمة الزبائن</h4>
+                <p class="text-xs text-stone-400 mb-3">نحن متواجدون لخدمتك والرد على كافة استفساراتك طيلة أيام الأسبوع.</p>
+                <a href="https://wa.me/213551702844" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-4 py-2 rounded-lg font-bold transition-colors">
+                    <i class="fa-brands fa-whatsapp"></i> مراسلة الدعم الفني
+                </a>
+            </div>
+        </div>
+        <div class="text-center text-stone-600 text-xs mt-12 pt-6 border-t border-stone-800">
+            جميع الحقوق محفوظة © 2026 لموقع متجر إلزا ELZA
+        </div>
+    </footer>
+
+    <!-- Fixed WhatsApp Floating Action Buttons -->
+    <div class="fixed bottom-6 left-6 z-50 flex flex-col gap-3">
+        <a href="https://wa.me/213551702844" target="_blank" class="pulse-btn bg-emerald-500 hover:bg-emerald-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-transform hover:scale-110">
+            <i class="fa-brands fa-whatsapp text-3xl"></i>
+        </a>
+        <a href="tel:0562134325" class="bg-stone-800 hover:bg-stone-900 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110">
+            <i class="fa-solid fa-phone text-lg"></i>
+        </a>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div id="cartModal" class="fixed inset-0 bg-black/60 z-50 hidden backdrop-blur-sm flex justify-end">
+        <div class="bg-white w-full max-w-md h-full flex flex-col justify-between p-6 shadow-2xl">
+            <div>
+                <div class="flex justify-between items-center pb-4 border-b">
+                    <h3 class="text-lg font-bold text-stone-800"><i class="fa-solid fa-bag-shopping ml-2 text-brand-brown"></i> حقيبة التسوق</h3>
+                    <button onclick="toggleCartModal()" class="text-stone-400 hover:text-stone-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div id="cartItemsContainer" class="divide-y max-h-[50vh] overflow-y-auto mt-4">
+                    <!-- Cart items injected dynamically -->
+                </div>
+            </div>
+
+            <div class="border-t pt-4 space-y-4">
+                <div class="flex justify-between font-bold text-lg">
+                    <span>الإجمالي:</span>
+                    <span id="cartTotal" class="text-brand-brown">0 د.ج</span>
+                </div>
+                
+                <!-- Customer Details Input -->
+                <div class="space-y-2">
+                    <input type="text" id="custName" placeholder="الاسم الكامل" class="w-full text-xs p-2.5 border rounded-lg focus:outline-none focus:border-brand-brown">
+                    <input type="text" id="custAddress" placeholder="المدينة / العنوان" class="w-full text-xs p-2.5 border rounded-lg focus:outline-none focus:border-brand-brown">
+                </div>
+
+                <button onclick="sendOrderToWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition-colors flex items-center justify-center gap-2 text-sm">
+                    <i class="fa-brands fa-whatsapp text-xl"></i> إتمام الطلب عبر الواتساب
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Store Dynamic Configuration & Integrated Phone Numbers
+        const STORE_CONFIG = {
+            whatsappNumber: "213551702844", // رقم الواتساب المدمج
+            phoneNumber: "0562134325",      // رقم الهاتف المباشر
+            currency: "د.ج"
+        };
+
+        // Sample Product Data
+        const products = [
+            {
+                id: 1,
+                name: "نويزات الأميرات - ELZA",
+                category: "فساتين",
+                price: 1800,
+                image: "https://ibb.co/R4s5pzQk",
+                description: "قطيفة فاخرة بلمسة أنيقة وراقية ❤️
+            },
+            {
+                id: 2,
+                name: "عباية مخملية مطرزة",
+                category: "عبايات",
+                price: 14200,
+                image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?q=80&w=600&auto=format&fit=crop",
+                description: "عباية راقية من القماش الفاخر المناسب للمناسبات الرسمية."
+            },
+            {
+                id: 3,
+                name: "حقيبة جلدية فاخرة بمقبض مدعم",
+                category: "حقائب",
+                price: 8900,
+                image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=600&auto=format&fit=crop",
+                description: "حقيبة باللون الأحمر الملكي مع تفاصيل واكسسوارات فضية متألقة."
+            },
+            {
+                id: 4,
+                name: "فستان كاجوال أحمر مشجر",
+                category: "كاجوال",
+                price: 9800,
+                image: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=600&auto=format&fit=crop",
+                description: "فستان صيفي خفيف مريح وأنيق للاستخدام اليومي والخروجات."
+            }
+        ];
+
+        let cart = [];
+
+        // Render Products List
+        function renderProducts(items = products) {
+            const container = document.getElementById('productGrid');
+            container.innerHTML = '';
+
+            items.forEach(product => {
+                const card = `
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-stone-100 flex flex-col justify-between">
+                        <div class="relative h-72 overflow-hidden bg-stone-100">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-stone-900/80 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full">${product.category}</span>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-stone-800 text-base mb-1">${product.name}</h3>
+                                <p class="text-stone-500 text-xs line-clamp-2 mb-3">${product.description}</p>
+                            </div>
+                            <div>
+                                <div class="text-brand-brown font-extrabold text-lg mb-4">${product.price.toLocaleString()} ${STORE_CONFIG.currency}</div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button onclick="addToCart(${product.id})" class="bg-stone-900 hover:bg-stone-800 text-white text-xs py-2.5 px-3 rounded-xl font-bold transition-colors flex items-center justify-center gap-1">
+                                        <i class="fa-solid fa-cart-plus"></i> للسلة
+                                    </button>
+                                    <button onclick="inquireProduct('${product.name}')" class="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 text-xs py-2.5 px-3 rounded-xl font-bold transition-colors flex items-center justify-center gap-1">
+                                        <i class="fa-brands fa-whatsapp"></i> استفسار
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        // Cart Actions
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const item = cart.find(i => i.id === productId);
+
+            if (item) {
+                item.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            updateCartUI();
+            toggleCartModal();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(i => i.id !== productId);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cartItemsContainer');
+            const totalElem = document.getElementById('cartTotal');
+            const countElem = document.getElementById('cartCount');
+
+            container.innerHTML = '';
+            let total = 0;
+            let totalCount = 0;
+
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+                totalCount += item.quantity;
+                container.innerHTML += `
+                    <div class="py-3 flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold text-xs text-stone-800">${item.name}</h4>
+                            <span class="text-xs text-stone-500">${item.quantity} × ${item.price.toLocaleString()} د.ج</span>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-rose-500 hover:text-rose-700 text-sm">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
+            });
+
+            totalElem.innerText = `${total.toLocaleString()} ${STORE_CONFIG.currency}`;
+            countElem.innerText = totalCount;
+        }
+
+        // WhatsApp Checkout Integration
+        function sendOrderToWhatsApp() {
+            if (cart.length === 0) {
+                alert('حقيبة التسوق فارغة!');
+                return;
+            }
+
+            const name = document.getElementById('custName').value.trim();
+            const address = document.getElementById('custAddress').value.trim();
+
+            if (!name || !address) {
+                alert('يرجى إدخال الاسم والعنوان لإكمال الطلب.');
+                return;
+            }
+
+            let message = `مرحباً متجر ELZA 👋\nأرغب في تقديم طلب جديد:\n\n`;
+            let total = 0;
+
+            cart.forEach((item, idx) => {
+                message += `${idx + 1}. *${item.name}*\n   العدد: ${item.quantity}\n   السعر: ${item.price * item.quantity} د.ج\n`;
+                total += item.price * item.quantity;
+            });
+
+            message += `\n*الإجمالي:* ${total.toLocaleString()} د.ج\n`;
+            message += `\n📌 *تفاصيل الزبونة:*\n- الاسم: ${name}\n- العنوان: ${address}\n\nشكراً لكم!`;
+
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodedMessage}`, '_blank');
+        }
+
+        function inquireProduct(productName) {
+            const msg = encodeURIComponent(`مرحباً ELZA، أود الاستفسار عن تفاصيل ومقاسات المتوفرة لـ: ${productName}`);
+            window.open(`https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${msg}`, '_blank');
+        }
+
+        // UI Interactions
+        function toggleCartModal() {
+            document.getElementById('cartModal').classList.toggle('hidden');
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+
+        function filterByCategory(category) {
+            const filtered = products.filter(p => p.category === category);
+            renderProducts(filtered);
+        }
+
+        function resetFilter() {
+            renderProducts(products);
+        }
+
+        function filterProducts() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = products.filter(p => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q));
+            renderProducts(filtered);
+        }
+
+        // Initial Load
+        renderProducts();
+    </script>
+</body>
+</html>
